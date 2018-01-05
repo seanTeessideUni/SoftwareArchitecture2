@@ -13,37 +13,32 @@ namespace ViewCustomers.Controllers
 {
     public class UsersController : Controller
     {
-       // private UserContext db = new UserContext();
 
         private ViewCustomers.DAL.IUserRepository db;
         
-        // Use constructor injection here
         public UsersController(IUserRepository repository)
         {
             this.db = repository;
         }
 
-
-        //public UsersController()
-        //{
-        //    this.db = new ViewCustomers.DAL.UserRepository(new UserContext());
-        //}
-
-        // GET: Users
+       // [Authorize]
         public ActionResult Index()
         {
             var allUsers = db.GetUser();
-            return View(allUsers);
+            var allUsersByActive = from a in allUsers orderby a.Active select a;
+
+            return View(allUsersByActive);
         }
 
         // GET: Users/Details/5
+       // [Authorize]
         public ActionResult Details(int id)
         {
             var UserDetails = db.GetUserByID(id);
 
             return View(UserDetails);
         }
-
+      //  [Authorize]
         // GET: Users/Create
         public ActionResult Create()
         {
@@ -55,7 +50,8 @@ namespace ViewCustomers.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,Surname,DOB,FirstLineAddress,SecondLineAddress,PostCode,Active")] User user)
+       // [Authorize]
+        public ActionResult Create([Bind(Include = "FirstName,Surname,DOB,FirstLineAddress,SecondLineAddress,PostCode,Active,Deleted")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +62,7 @@ namespace ViewCustomers.Controllers
 
             return View(user);
         }
-
+        //[Authorize]
         // GET: Users/Edit/5
         public ActionResult Edit(int id)
         {
@@ -84,7 +80,8 @@ namespace ViewCustomers.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,FirstName,Surname,DOB,FirstLineAddress,SecondLineAddress,PostCode,Active")] User user)
+      // [Authorize]
+        public ActionResult Edit([Bind(Include = "UserID,FirstName,Surname,DOB,FirstLineAddress,SecondLineAddress,PostCode,Active,Deleted")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +91,7 @@ namespace ViewCustomers.Controllers
             }
             return View(user);
         }
-
+       // [Authorize]
         // GET: Users/Delete/5
         public ActionResult Delete(int id)
         {

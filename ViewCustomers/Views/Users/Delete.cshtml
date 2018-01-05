@@ -56,9 +56,11 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PostCode)
+            @Html.DisplayFor(model => model.Active)
         </dd>
-
+        <dd>
+            @Html.DisplayFor(model => model.Deleted)
+        </dd>
     </dl>
 
     @using (Html.BeginForm()) {

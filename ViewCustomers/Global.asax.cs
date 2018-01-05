@@ -19,26 +19,29 @@ namespace ViewCustomers
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-#if debug
+
             // Create the container as usual.
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
 
             // Register your types, for instance:
+#if DEBUG
             container.Register<UserContext> (Lifestyle.Scoped);
             container.Register<IUserRepository, UserRepository>(Lifestyle.Scoped);
+#endif
 
+#if RELEASE
+            //
+#endif
             // This is an extension method from the integration package.
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 
             container.Verify();
 
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
-#endif
 
-#if release
-            //
-#endif
+
+
         }
     }
 }
