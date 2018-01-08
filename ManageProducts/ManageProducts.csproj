@@ -221,7 +221,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProductsDB\ProductsDB.csproj">
+    <ProjectReference Include="..\..\..\..\Documents\SoftwareArchitecture-master - update1\ProductsDB\ProductsDB.csproj">
       <Project>{8b345787-9405-4d7f-b7d8-e6ba40dc9a91}</Project>
       <Name>ProductsDB</Name>
     </ProjectReference>

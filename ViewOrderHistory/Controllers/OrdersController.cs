@@ -11,8 +11,11 @@ using ViewOrderHistory.DAL;
 namespace ViewOrderHistory.Controllers
 {
     public class OrdersController : Controller
+
     {
+        
         public ViewOrderHistory.DAL.IViewOrderHistoryRepository db;
+        public ViewOrderHistory.Models.MockProductsContext productsdb;
 
         public OrdersController(IViewOrderHistoryRepository repository)
         {
@@ -23,6 +26,12 @@ namespace ViewOrderHistory.Controllers
         public ActionResult Index()
         {
             var AllOrders = db.GetOrder();
+
+            var Orders = (from a in Order_DB.Order
+                          join c in productsdb. on a.UserID equals c.UserID
+                          where c.ClientID == yourDescriptionObject.ClientID
+                          select a.Balance)
+              .SingleOrDefault();
 
             return View(AllOrders);
         }

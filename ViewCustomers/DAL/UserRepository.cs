@@ -28,6 +28,7 @@ namespace ViewCustomers.DAL
 
         public void InsertUser(User user)
         {
+           
             context.Users.Add(user);
         }
 

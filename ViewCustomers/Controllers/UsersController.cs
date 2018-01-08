@@ -51,14 +51,24 @@ namespace ViewCustomers.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
        // [Authorize]
-        public ActionResult Create([Bind(Include = "FirstName,Surname,DOB,FirstLineAddress,SecondLineAddress,PostCode,Active,Deleted")] User user)
+        public ActionResult Create([Bind(Include = "UserID,FirstName,Surname,DOB,FirstLineAddress,SecondLineAddress,PostCode,Active,Deleted")] User user)
         {
+           
             if (ModelState.IsValid)
             {
+                try
+                {
                 db.InsertUser(user);
                 db.Save();
                 return RedirectToAction("Index");
+                }
+                catch (Exception ex) // catches all exceptions
+                {
+                    return View(ex.Message);
+                }
             }
+            ModelState.AddModelError("", "Error");
+   
 
             return View(user);
         }
@@ -66,13 +76,19 @@ namespace ViewCustomers.Controllers
         // GET: Users/Edit/5
         public ActionResult Edit(int id)
         {
-           
-            var UserDetails = db.GetUserByID(id);
-            if (UserDetails == null)
+            try
             {
-                return HttpNotFound();
+                var UserDetails = db.GetUserByID(id);
+                if (UserDetails == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(UserDetails);
             }
-            return View(UserDetails);
+            catch (Exception ex) // catches all exceptions
+            {
+                return View(ex.Message);
+            }
         }
 
         // POST: Users/Edit/5
@@ -85,23 +101,38 @@ namespace ViewCustomers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.UpdateUser(user);
-                db.Save();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.UpdateUser(user);
+                    db.Save();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex) // catches all exceptions
+                {
+                    return View(ex.Message);
+                }
             }
-            return View(user);
+                return View(user);
         }
        // [Authorize]
         // GET: Users/Delete/5
         public ActionResult Delete(int id)
         {
-  
-            var UserDetails = db.GetUserByID(id);
-            if (UserDetails == null)
+            try
             {
-                return HttpNotFound();
+
+                var UserDetails = db.GetUserByID(id);
+                if (UserDetails == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(UserDetails);
             }
-            return View(UserDetails);
+            catch (Exception ex) // catches all exceptions
+            {
+                return View(ex.Message);
+            }
+         
         }
 
         // POST: Users/Delete/5
